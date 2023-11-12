@@ -1,33 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [list, setList] = useState([]);
+  const [item, setItem] = useState();
+  //Function to add item
+  const addToList = ()=> {
+    list.push(item);
+    setItem([...list]);
+  }
+//Function to delete item
+
+const deleteItem = (index)=> {
+  list.splice(index, 1);
+  setItem([...list]);
+}
+
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="container mt-5 w-50">
+        <table className="table">
+          <tbody>
+          {
+            list.length!==0?(
+              list.map((element, index)=>{
+                return (
+                  <tr className="w-100">
+                    <td>{element}</td>
+                    <td><button onClick={()=>deleteItem(index)} className="btn btn-danger">Delete</button></td>
+                  </tr>
+                )
+              })
+            ):(<></>)
+          }
+          </tbody>
+        </table>
+        <div className="d-flex">
+          <input className="form-control" type="text" onChange={(e)=>setItem(e.target.value)} />
+          <button className="ms-2 btn btn-primary" onClick={addToList}>Add</button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
